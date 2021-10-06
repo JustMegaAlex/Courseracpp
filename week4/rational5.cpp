@@ -82,16 +82,6 @@ public:
       return (*this + r);
     }
 
-    Rational operator/(Rational b) {
-      if (b.Numerator() == 0)
-        throw std::domain_error("zero divider!");
-      return {n * b.Denominator(), d * b.Numerator()};
-    }
-
-    Rational operator*(Rational b) {
-      return {n * b.Numerator(), d * b.Denominator()};
-    }
-
 private:
     int n;
     int d;
@@ -108,37 +98,47 @@ bool operator==(const Rational& a, const Rational& b) {
   return (a.Numerator() == b.Numerator()) && (a.Denominator() == b.Denominator());
 }
 
-int main() {
-    {
-        const set<Rational> rs = {{1, 2}, {1, 25}, {3, 4}, {3, 4}, {1, 2}};
-        if (rs.size() != 3) {
-            cout << "Wrong amount of items in the set" << endl;
-            return 1;
-        }
-
-        vector<Rational> v;
-        for (auto x : rs) {
-            v.push_back(x);
-        }
-        if (v != vector<Rational>{{1, 25}, {1, 2}, {3, 4}}) {
-            cout << "Rationals comparison works incorrectly" << endl;
-            return 2;
-        }
+Rational operator/(Rational a, Rational b) {
+      if (b.Numerator() == 0)
+        throw std::domain_error("zero divider!");
+      return {a.Numerator() * b.Denominator(), a.Denominator() * b.Numerator()};
     }
 
-    {
-        map<Rational, int> count;
-        ++count[{1, 2}];
-        ++count[{1, 2}];
-
-        ++count[{2, 3}];
-
-        if (count.size() != 2) {
-            cout << "Wrong amount of items in the map" << endl;
-            return 3;
-        }
+    Rational operator*(Rational a, Rational b) {
+      return {a.Numerator() * b.Numerator(), a.Denominator() * b.Denominator()};
     }
 
-    cout << "OK" << endl;
-    return 0;
-}
+// int main() {
+//     {
+//         const set<Rational> rs = {{1, 2}, {1, 25}, {3, 4}, {3, 4}, {1, 2}};
+//         if (rs.size() != 3) {
+//             cout << "Wrong amount of items in the set" << endl;
+//             return 1;
+//         }
+
+//         vector<Rational> v;
+//         for (auto x : rs) {
+//             v.push_back(x);
+//         }
+//         if (v != vector<Rational>{{1, 25}, {1, 2}, {3, 4}}) {
+//             cout << "Rationals comparison works incorrectly" << endl;
+//             return 2;
+//         }
+//     }
+
+//     {
+//         map<Rational, int> count;
+//         ++count[{1, 2}];
+//         ++count[{1, 2}];
+
+//         ++count[{2, 3}];
+
+//         if (count.size() != 2) {
+//             cout << "Wrong amount of items in the map" << endl;
+//             return 3;
+//         }
+//     }
+
+//     cout << "OK" << endl;
+//     return 0;
+// }

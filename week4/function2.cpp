@@ -1,58 +1,4 @@
-#include <string>
-#include <vector>
-#include <iostream>
-#include <algorithm>
-
-class FunctionPart {
-    public:
-        FunctionPart(char _op, double _val) {
-            operation = _op;
-            value = _val;
-        }
-
-        double Apply(double src_val) {
-            char& op = operation;
-            if (op == '-') return src_val - value;
-            else if (op == '+') return src_val + value;
-            else if (op == '*') return src_val * value;
-            else if (op == '/') return src_val / value;
-        }
-
-        char Invert() {
-            char& op = operation;
-            if (op == '-') op = '+';
-            else if (op == '+') op = '-';
-            else if (op == '*') op = '/';
-            else if (op == '/') op = '*';
-            return op;
-        }
-
-    private:
-        char operation;
-        double value;
-};
-
-class Function {
-    public:
-        void AddPart(char _op, double _val) {
-            parts.push_back(FunctionPart(_op, _val));
-        };
-        void Invert() {
-            double gain = 1;
-            for(auto& p : parts) {
-                p.Invert();
-                std::reverse(parts.begin(), parts.end());
-            }
-        };
-        double Apply(double value) {
-            for(auto& p: parts) {
-                value = p.Apply(value);
-            }
-            return value;
-        }
-    private:
-        std::vector<FunctionPart> parts;
-};
+#include "function2.hpp"
 
 struct Image {
   double quality;   // 10
@@ -94,10 +40,10 @@ double ComputeQualityByWeight(const Params& params,
 
 using namespace std;
 
-// int main() {
-//   Image image = {10, 2, 6};
-//   Params params = {4, 2, 6};
-//   cout << ComputeImageWeight(params, image) << endl;
-//   cout << ComputeQualityByWeight(params, image, 52) << endl;
-//   return 0;
-// }
+int main() {
+  Image image = {10, 2, 6};
+  Params params = {4, 2, 6};
+  cout << ComputeImageWeight(params, image) << endl;
+  cout << ComputeQualityByWeight(params, image, 52) << endl;
+  return 0;
+}
