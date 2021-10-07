@@ -13,7 +13,7 @@ class FunctionPart {
         FunctionPart(char _op, double _val) {
             operation = _op;
             value = _val;
-            print("Ctor " + tostr(operation));
+            // print("Ctor " + tostr(operation));
         }
 
         double Apply(double src_val) const {
@@ -33,6 +33,8 @@ class FunctionPart {
             else if (op == '/') op = '*';
             return op;
         }
+        char get_op() { return operation; }
+        double get_val() { return value; }
 
     private:
         char operation;
@@ -45,10 +47,10 @@ class Function {
             parts.push_back(FunctionPart(_op, _val));
         };
         void Invert() {
-            double gain = 1;
+            std::reverse(parts.begin(), parts.end());
             for(auto& p : parts) {
-                std::reverse(parts.begin(), parts.end());
-                print("Invert " + tostr(p.Invert()));
+                char _op = p.Invert();
+                // print("Invert " + tostr(_op));
             }
         };
         double Apply(double value) const {
@@ -56,6 +58,15 @@ class Function {
                 value = p.Apply(value);
             }
             return value;
+        }
+        std::string ToStr() {
+            std::string s;
+            for (auto op: parts) {
+                s.push_back(op.get_op());
+                s += "";
+                s += std::to_string(op.get_val()) + " ";
+            }
+            return s;
         }
     private:
         std::vector<FunctionPart> parts;

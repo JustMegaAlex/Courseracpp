@@ -16,7 +16,8 @@ void handle_request(std::vector<Student> students) {
     std::cin >> rtype;
     std::cin >> k;
     k--;
-    if (k < 0 || k > (students.size() - 1)) {
+    int upper_bound = static_cast<int>(students.size()) - 1;
+    if (k < 0 || k > (upper_bound)) {
         std::cout << "bad request\n";
         return;
     }
@@ -36,11 +37,7 @@ int main() {
     std::vector<Student> students;
     while(students_num) {
         Student st;
-        std::cin >> st.name;
-        std::cin >> st.second_name;
-        std::cin >> st.bday;
-        std::cin >> st.bmonth;
-        std::cin >> st.byear;
+        std::cin >> st.name >> st.second_name >> st.bday >> st.bmonth >> st.byear;
         students.push_back(st);
         students_num--;
     }

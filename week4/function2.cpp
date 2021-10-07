@@ -1,4 +1,6 @@
 #include "function2.hpp"
+#include <fstream>
+#include <iostream>
 
 struct Image {
   double quality;   // 10
@@ -43,7 +45,36 @@ using namespace std;
 int main() {
   Image image = {10, 2, 6};
   Params params = {4, 2, 6};
-  cout << ComputeImageWeight(params, image) << endl;
-  cout << ComputeQualityByWeight(params, image, 52) << endl;
+  // cout << ComputeImageWeight(params, image) << endl;
+  // cout << ComputeQualityByWeight(params, image, 52) << endl;
+  Function f;
+  std::ifstream inp("function2.txt");
+  char op;
+  double val;
+  double res;
+  while (true) {
+    inp >> op;
+    if (op == '_')
+      break;
+    inp >> val;
+    f.AddPart(op, val);
+  }
+  // direct
+  std::vector<double> vals;
+  while (true) {
+    inp >> val;
+    if (!inp)
+      break;
+    res = f.Apply(val);
+    vals.push_back(res);
+    std::cout << val << ": " << res << '\n';
+  }
+  // inverted
+  std::cout << "--------" << '\n';
+  f.Invert();
+  std::cout << f.ToStr() << '\n';
+  for(double val: vals) {
+    std::cout << val << ": " /* << f.ToStr() */ << f.Apply(val) << '\n';
+  }
   return 0;
 }
